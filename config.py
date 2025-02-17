@@ -9,7 +9,7 @@ class Config(object):
 
     # database config
     DB_NAME = os.environ.get("DB_NAME","madflixbotz")     
-    DB_URL  = os.environ.get("DB_URL","mongodb+srv://Nt1:<db_password>@nt1.thwrt.mongodb.net/?retryWrites=true&w=majority&appName=NT1")
+    DB_URL  = os.environ.get("DB_URL","mongodb+srv://n4animeedit:u80hdwhlka5NBFfY@cluster0.jowvb.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0")
  
     # other configs
     BOT_UPTIME  = time.time()
