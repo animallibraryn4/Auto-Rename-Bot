@@ -1,6 +1,6 @@
 import random
 from pyrogram import Client, filters
-from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup, ForceReply, CallbackQuery, Message, InputMediaPhoto
+from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup, CallbackQuery, Message
 
 from helper.database import madflixbotz
 from config import Config, Txt  
@@ -55,6 +55,7 @@ async def cb_handler(client, query: CallbackQuery):
                 InlineKeyboardButton('🖼️ Thumbnail', callback_data='thumbnail'),
                 InlineKeyboardButton('✏️ Caption', callback_data='caption')
                 ],[
+                InlineKeyboardButton('📑 Metadata', callback_data='metadata'),  # Added Metadata Button
                 InlineKeyboardButton('🏠 Home', callback_data='home'),
                 InlineKeyboardButton('💰 Donate', callback_data='donate')
                 ]])
@@ -99,6 +100,21 @@ async def cb_handler(client, query: CallbackQuery):
             ]])          
         )
     
+    # NEW: Metadata Handling
+    elif data == "metadata":
+        metadata_info = await madflixbotz.get_metadata(user_id)
+        metadata_text = f"**Current Metadata Settings:**\n{metadata_info}" if metadata_info else "No Metadata Set."
+        await query.message.edit_text(
+            text=metadata_text,
+            disable_web_page_preview=True,
+            reply_markup=InlineKeyboardMarkup([[
+                InlineKeyboardButton("✏️ Set Metadata", callback_data="set_metadata"),
+                InlineKeyboardButton("✖️ Close", callback_data="close")
+            ]])          
+        )
+
+    elif data == "set_metadata":
+        await query.message.reply_text("Send the metadata you want to set in the format:\n\n`title: XYZ\nartist: ABC\nyear: 2023`", reply_markup=ForceReply(selective=True))
     
     elif data == "close":
         try:
@@ -109,9 +125,11 @@ async def cb_handler(client, query: CallbackQuery):
             await query.message.delete()
             await query.message.continue_propagation()
 
-
-
-
-
-
-
+# Handler for setting metadata
+@Client.on_message(filters.private & filters.reply)
+async def handle_metadata(client, message: Message):
+    user_id = message.from_user.id
+    if message.reply_to_message and "Send the metadata you want to set" in message.reply_to_message.text:
+        metadata_text = message.text.strip()
+        await madflixbotz.set_metadata(user_id, metadata_text)
+        await message.reply_text(f"Metadata Updated:\n\n{metadata_text}")
