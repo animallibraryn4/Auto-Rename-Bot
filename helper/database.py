@@ -13,10 +13,10 @@ class Database:
         return dict(
             _id=int(id),                                   
             file_id=None,
-            file_name=None,  # New: File Name Field
+            file_name=None,  # Stores File Name
             caption=None,
             format_template=None,
-            metadata=None
+            metadata=None  # Stores Metadata
         )
 
     async def add_user(self, b, m):
@@ -27,6 +27,7 @@ class Database:
             await send_log(b, u)
 
     async def is_user_exist(self, id):
+        """ Check if a user exists in the database. """
         user = await self.col.find_one({'_id': int(id)})
         return bool(user)
 
@@ -38,6 +39,10 @@ class Database:
         """ Retrieve file name for a user. """
         user = await self.col.find_one({'_id': int(id)})
         return user.get('file_name', None)
+
+    async def delete_file_name(self, id):
+        """ Delete file name for a user. """
+        await self.col.update_one({'_id': int(id)}, {'$unset': {'file_name': ""}})
 
     async def set_metadata(self, id, metadata):
         """ Store metadata for a user. """
