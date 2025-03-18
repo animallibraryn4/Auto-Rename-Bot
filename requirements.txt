@@ -7,3 +7,5 @@ Pillow
 aiohttp
 pytz
 psutil
+mutagen
+ffmpeg-python
