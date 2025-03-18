@@ -1,4 +1,5 @@
 import random
+from pyrogram.types import ForceReply
 from pyrogram import Client, filters
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup, CallbackQuery, Message
 
