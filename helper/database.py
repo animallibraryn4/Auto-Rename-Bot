@@ -14,7 +14,8 @@ class Database:
             _id=int(id),                                   
             file_id=None,
             caption=None,
-            format_template=None  # Add this line for the format template
+            format_template=None,  # Format Template
+            metadata=None  # Added Metadata Field
         )
 
     async def add_user(self, b, m):
@@ -67,13 +68,18 @@ class Database:
         user = await self.col.find_one({'_id': int(id)})
         return user.get('media_type', None)
 
+    # ---- METADATA FUNCTIONS ---- #
+    async def set_metadata(self, id, metadata):
+        """ Store metadata for a user. """
+        await self.col.update_one({'_id': int(id)}, {'$set': {'metadata': metadata}})
 
+    async def get_metadata(self, id):
+        """ Retrieve metadata for a user. """
+        user = await self.col.find_one({'_id': int(id)})
+        return user.get('metadata', None)
+
+    async def delete_metadata(self, id):
+        """ Delete metadata for a user. """
+        await self.col.update_one({'_id': int(id)}, {'$unset': {'metadata': ""}})
 
 madflixbotz = Database(Config.DB_URL, Config.DB_NAME)
-        
-
-
-# Jishu Developer 
-# Don't Remove Credit 🥺
-# Telegram Channel @Madflix_Bots
-# Developer @JishuDeveloper
