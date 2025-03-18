@@ -40,9 +40,13 @@ async def cb_handler(client, query: CallbackQuery):
 
     elif data == "metadata":
         metadata_info = await madflixbotz.get_metadata(user_id)
-        metadata_text = f"**Current Metadata Settings:**\n{metadata_info}" if metadata_info else "No Metadata Set."
+        file_name = await madflixbotz.get_file_name(user_id)
+
+        metadata_text = f"**📜 Current Metadata:**\n{metadata_info}" if metadata_info else "❌ No Metadata Set."
+        file_name_text = f"**📁 File Name:** `{file_name}`" if file_name else "❌ No File Name Set."
+        
         await query.message.edit_text(
-            text=metadata_text,
+            text=f"{metadata_text}\n\n{file_name_text}",
             disable_web_page_preview=True,
             reply_markup=InlineKeyboardMarkup([[
                 InlineKeyboardButton("✏️ Set Metadata", callback_data="set_metadata"),
@@ -66,7 +70,19 @@ async def cb_handler(client, query: CallbackQuery):
         except:
             pass
 
-# Handler for setting metadata
+# --- NEW: `/metadata` Command ---
+@Client.on_message(filters.private & filters.command("metadata"))
+async def metadata_command(client, message: Message):
+    user_id = message.from_user.id
+    metadata = await madflixbotz.get_metadata(user_id)
+    file_name = await madflixbotz.get_file_name(user_id)
+
+    metadata_text = f"**📜 Current Metadata:**\n{metadata}" if metadata else "❌ No Metadata Set."
+    file_name_text = f"**📁 File Name:** `{file_name}`" if file_name else "❌ No File Name Set."
+    
+    await message.reply_text(f"{metadata_text}\n\n{file_name_text}")
+
+# --- NEW: Handle Metadata & File Name ---
 @Client.on_message(filters.private & filters.reply)
 async def handle_metadata(client, message: Message):
     user_id = message.from_user.id
@@ -89,4 +105,9 @@ async def handle_metadata(client, message: Message):
         if file_name:
             await madflixbotz.set_file_name(user_id, file_name)
         
-        await message.reply_text(f"✅ Metadata Updated:\n\n{metadata_text}")
+        # Confirmation Message
+        confirmation_text = "**✅ Metadata Successfully Updated!**\n\n"
+        confirmation_text += f"**📁 File Name:** `{file_name}`\n" if file_name else ""
+        confirmation_text += f"**📜 Metadata:**\n{metadata_text}"
+
+        await message.reply_text(confirmation_text)
