@@ -10,13 +10,10 @@ async def start(client, message):
     user = message.from_user
     await madflixbotz.add_user(client, message)                
     button = InlineKeyboardMarkup([[
-      InlineKeyboardButton('📢 Updates', url='https://t.me/Madflix_Bots'),
-      InlineKeyboardButton('💬 Support', url='https://t.me/MadflixBots_Support')
+      InlineKeyboardButton('📢 Updates', url='https://t.me/animelibraryn4')
     ],[
       InlineKeyboardButton('⚙️ Help', callback_data='help'),
-      InlineKeyboardButton('💙 About', callback_data='about')
-    ],[
-        InlineKeyboardButton("🧑‍💻 Developer 🧑‍💻", url='https://t.me/CallAdminRobot')
+      InlineKeyboardButton('🙂 About', callback_data='about')
     ]])
     if Config.START_PIC:
         await message.reply_photo(Config.START_PIC, caption=Txt.START_TXT.format(user.mention), reply_markup=button)       
@@ -33,13 +30,10 @@ async def cb_handler(client, query: CallbackQuery):
             text=Txt.START_TXT.format(query.from_user.mention),
             disable_web_page_preview=True,
             reply_markup=InlineKeyboardMarkup([[
-                InlineKeyboardButton('📢 Updates', url='https://t.me/Madflix_Bots'),
-                InlineKeyboardButton('💬 Support', url='https://t.me/MadflixBots_Support')
+                InlineKeyboardButton('📢 Updates', url='https://t.me/animelibraryn4')
                 ],[
                 InlineKeyboardButton('⚙️ Help', callback_data='help'),
-                InlineKeyboardButton('💙 About', callback_data='about')
-                ],[
-                InlineKeyboardButton("🧑‍💻 Developer 🧑‍💻", url='https://t.me/CallAdminRobot')
+                InlineKeyboardButton('🙂 About', callback_data='about')
                 ]])
         )
     elif data == "caption":
@@ -120,7 +114,4 @@ async def cb_handler(client, query: CallbackQuery):
 
 
 
-# Jishu Developer 
-# Don't Remove Credit 🥺
-# Telegram Channel @Madflix_Bots
-# Developer @JishuDeveloper
+
