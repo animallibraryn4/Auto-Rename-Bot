@@ -3,20 +3,20 @@ id_pattern = re.compile(r'^.\d+$')
 
 class Config(object):
     # pyro client config
-    API_ID    = os.environ.get("API_ID", "")
-    API_HASH  = os.environ.get("API_HASH", "")
-    BOT_TOKEN = os.environ.get("BOT_TOKEN", "") 
+    API_ID    = os.environ.get("API_ID", "22299340")
+    API_HASH  = os.environ.get("API_HASH", "09b09f3e2ff1306da4a19888f614d937")
+    BOT_TOKEN = os.environ.get("BOT_TOKEN", "7678362707:AAFOOo8ilAPKPn473A0kzIsM-XyLDfFJSLs") 
 
     # database config
     DB_NAME = os.environ.get("DB_NAME","madflixbotz")     
-    DB_URL  = os.environ.get("DB_URL","")
+    DB_URL  = os.environ.get("DB_URL","mongodb+srv://n4animeedit:u80hdwhlka5NBFfY@cluster0.jowvb.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0")
  
     # other configs
     BOT_UPTIME  = time.time()
-    START_PIC   = os.environ.get("START_PIC", "https://graph.org/file/4b306f4b15c23a8f22e58.jpg")
-    ADMIN       = [int(admin) if id_pattern.search(admin) else admin for admin in os.environ.get('ADMIN', '').split()]
-    FORCE_SUB   = os.environ.get("FORCE_SUB", "") 
-    LOG_CHANNEL = int(os.environ.get("LOG_CHANNEL", ""))
+    START_PIC   = os.environ.get("START_PIC", "https://4kwallpapers.com/minimal/luffy-straw-hat-20824.html")
+    ADMIN       = [int(admin) if id_pattern.search(admin) else admin for admin in os.environ.get('ADMIN', '5380609667').split()]
+    FORCE_SUB   = os.environ.get("FORCE_SUB", "animelibraryn4") 
+    LOG_CHANNEL = int(os.environ.get("LOG_CHANNEL", "-1001896877147"))
     
     # wes response configuration     
     WEBHOOK = bool(os.environ.get("WEBHOOK", "True"))
@@ -25,17 +25,16 @@ class Config(object):
 class Txt(object):
     # part of text configuration
         
-    START_TXT = """Hello {} 
+    START_TXT = """✨Hello {} 
     
-➻ This Is An Advanced And Yet Powerful Rename Bot.
-    
-➻ Using This Bot You Can Auto Rename Of Your Files.
-    
-➻ This Bot Also Supports Custom Thumbnail And Custom Caption.
-    
-➻ Use /tutorial Command To Know How To Use Me.
-    
-<b>Bot Is Made By @Madflix_Bots</b>"""
+🚀 Features:
+✅ Auto Rename Files
+✅ Custom Thumbnail & Caption
+✅ Easy-to-Use Commands
+
+💡 Use /tutorial to get started!
+
+<b>🤖 Powered by @animelibraryn4</b>"""
     
     FILE_NAME_TXT = """<b><u>SETUP AUTO RENAME FORMAT</u></b>
 
@@ -44,18 +43,19 @@ Use These Keywords To Setup Custom File Name
 ✓ episode :- To Replace Episode Number
 ✓ quality :- To Replace Video Resolution
 
-<b>➻ Example :</b> <code> /autorename Naruto Shippuden S02 - EPepisode - quality  [Dual Audio] - @Madflix_Bots </code>
+📁 ᴜsᴇ /setmedia Video ᴛᴏ ᴜᴘʟᴏᴀᴅ ᴀs ᴀ ᴠɪᴅᴇᴏ.   
+📄 ᴜsᴇ /setmedia Document ᴜᴘʟᴏᴀᴅ ᴀs ᴀ ᴅᴏᴄᴜᴍᴇɴᴛ.
+
+<b>➻ Example :</b> <code> /autorename [S01Eepisode][quality] Naruto Shippuden [Dual Audio] @animelibraryn4 @onlyfans_n4 </code>
 
 <b>➻ Your Current Auto Rename Format :</b> <code>{format_template}</code> """
     
-    ABOUT_TXT = f"""<b>🤖 My Name :</b> <a href='https://t.me/AutoRenameXBot'>Auto Rename Bot ⚡</a>
+    ABOUT_TXT = f"""<b>🤖 Auto Rename Bot:</b> <a href='https://t.me/animelibraryn4'>1 Piece</a>
 <b>📝 Language :</b> <a href='https://python.org'>Python 3</a>
 <b>📚 Library :</b> <a href='https://pyrogram.org'>Pyrogram 2.0</a>
 <b>🚀 Server :</b> <a href='https://heroku.com'>Heroku</a>
-<b>📢 Channel :</b> <a href='https://t.me/Madflix_Bots'>Madflix Botz</a>
-<b>🧑‍💻 Developer :</b> <a href='https://t.me/CallAdminRobot'>Jishu Developer</a>
-    
-<b>♻️ Bot Made By :</b> @Madflix_Bots"""
+<b>📢 Channel :</b> <a href='https://t.me/animelibraryn4'>Anime Library N4</a>
+<b>🧑‍💻 Developer :</b> <a href='https://t.me/Tanjiro_kamado_n4_bot'>Anime Library N4</a>"""
 
     
     THUMBNAIL_TXT = """<b><u>🖼️  HOW TO SET THUMBNAIL</u></b>
@@ -82,7 +82,7 @@ Use These Keywords To Setup Custom File Name
     
 If You Like My Bots & Projects, You Can 🎁 Donate Me Any Amount From 10 Rs Upto Your Choice.
     
-<b>🛍 UPI ID:</b> <code>madflixofficial@axl</code> """
+<b>🛍 UPI ID:</b> <code>@</code> """
     
     HELP_TXT = """<b>Hey</b> {}
     
@@ -91,9 +91,4 @@ Here Is The Help For My Commands."""
 
 
 
-
-# Jishu Developer 
-# Don't Remove Credit 🥺
-# Telegram Channel @Madflix_Bots
-# Developer @JishuDeveloper
 
