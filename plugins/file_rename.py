@@ -11,7 +11,10 @@ from config import Config
 import os
 import time
 import re
+import asyncio
 
+# Queue to manage file processing
+file_processing_queue = asyncio.Queue()
 renaming_operations = {}
 
 # Pattern 1: S01E02 or S01EP02
@@ -130,13 +133,24 @@ def extract_episode_number(filename):
     # Return None if no pattern matches
     return None
 
-# Example Usage:
-filename = "Naruto Shippuden S01 - EP07 - 1080p [Dual Audio] @Madflix_Bots.mkv"
-episode_number = extract_episode_number(filename)
-print(f"Extracted Episode Number: {episode_number}")
+async def process_file_processing_queue():
+    while True:
+        # Get the next file from the queue
+        client, message = await file_processing_queue.get()
+        try:
+            await auto_rename_files(client, message)
+        except Exception as e:
+            print(f"Error processing file: {e}")
+        finally:
+            # Mark the task as done
+            file_processing_queue.task_done()
 
 # Inside the handler for file uploads
 @Client.on_message(filters.private & (filters.document | filters.video | filters.audio))
+async def enqueue_file_for_processing(client, message):
+    # Add the file to the processing queue
+    await file_processing_queue.put((client, message))
+
 async def auto_rename_files(client, message):
     user_id = message.from_user.id
     firstname = message.from_user.first_name
@@ -164,9 +178,7 @@ async def auto_rename_files(client, message):
 
     print(f"Original File Name: {file_name}")
     
-    
-
-# Check whether the file is already being renamed or has been renamed recently
+    # Check whether the file is already being renamed or has been renamed recently
     if file_id in renaming_operations:
         elapsed_time = (datetime.now() - renaming_operations[file_id]).seconds
         if elapsed_time < 10:
@@ -283,13 +295,21 @@ async def auto_rename_files(client, message):
         if ph_path:
             os.remove(ph_path)
 
-# Remove the entry from renaming_operations after successful renaming
+        # Remove the entry from renaming_operations after successful renaming
         del renaming_operations[file_id]
+# Start the file processing queue
+async def start_file_processing_queue():
+    await process_file_processing_queue()
 
+# Run the file processing queue when the bot starts
+app = Client("my_bot")
+async def main():
+    asyncio.create_task(start_file_processing_queue())  # Run file queue processing in background
+    await app.start()
+    await idle()  # Keep the bot running
 
+import asyncio
 
-
-# Jishu Developer 
-# Don't Remove Credit 🥺
-# Telegram Channel @Madflix_Bots
-# Developer @JishuDeveloper
+if __name__ == "__main__":
+    asyncio.run(main()) if not asyncio.get_event_loop().is_running() else asyncio.create_task(main())
+        
